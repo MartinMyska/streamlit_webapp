@@ -58,8 +58,8 @@ def load_max_price(df_group_data_by_category: pd.DataFrame):
     return df_group_data_by_category['Cena'].max()
 
 
-# def get_date(df_group_data_by_category: pd.DataFrame):
-#     return df_group_data_by_category[df_group_data_by_category['Cena'] == load_min_price(df_group_data_by_category)]
+def get_date(df_group_data_by_category: pd.DataFrame, price: float):
+    return df_group_data_by_category[df_group_data_by_category['Cena'] == price]
 
 
 # initial load data
@@ -77,7 +77,9 @@ data_by_category = load_data_by_category(group_data, selected_type)
 category_chart = alt.Chart(data_by_category).mark_line().encode(x='Rok:O', y='Cena:Q')
 st.altair_chart(category_chart)
 
-# st.write(get_date(data_by_category)['Rok'])
+min_price = load_min_price(data_by_category)
+max_price = load_max_price(data_by_category)
 
-st.metric("Min price:", value=load_min_price(data_by_category))
-st.metric("Max price:", value=load_max_price(data_by_category))
+
+st.metric("Min price:", min_price, get_date(data_by_category, min_price)['Rok'].iloc[0])
+st.metric("Max price:", max_price, get_date(data_by_category, max_price)['Rok'].iloc[0])

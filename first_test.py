@@ -67,5 +67,3 @@ with tab_left:
 
 with tab_right:
     st.dataframe(load_data(), hide_index=True)
-
-
